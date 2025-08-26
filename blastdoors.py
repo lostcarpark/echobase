@@ -1,5 +1,5 @@
 from pybricks.hubs import TechnicHub
-from pybricks.pupdevices import ColorDistanceSensor, DCMotor
+from pybricks.pupdevices import ColorDistanceSensor, Motor
 from pybricks.parameters import Button, Color, Direction, Port, Side, Stop
 from pybricks.tools import wait, StopWatch
 import urandom
@@ -18,7 +18,7 @@ MAX_INTERVAL = 180 # Maximum number of seconds between door cycles.
 hub = TechnicHub()
 sensor = ColorDistanceSensor(Port.A)
 sensor.detectable_colors([CLOSE_COLOR, OPEN_COLOR, INTERVAL_COLOR])
-doorMotor = DCMotor(Port.B)
+doorMotor = Motor(Port.B)
 
 # Function to open or close door.
 # Run motor in specified direction until colour reached.
@@ -26,11 +26,12 @@ def doorMove(direction, end_color, delay):
     hub.light.on(end_color)
     doorMotor.dc(direction)
     # Wait for end colour to be detected.
-    while (sensor.color() != end_color):
+    while (sensor.color() != end_color and not doorMotor.stalled()):
         wait(20)
     if (DEBUG):
         print("Color detected: ", sensor.hsv())
-    wait(delay)
+    if (not doorMotor.stalled()):
+        wait(delay)
     doorMotor.stop()
     hub.light.off()
 

@@ -8,7 +8,7 @@ This program controls the main hanger blast doors.
 
 ### Assumptions
 
-- RUns on Powered Up Technic Hub
+- Runs on Powered Up Technic Hub
 - Color and Distance sensor connected to port A
 - Motor with Rotation Sensor connected to port B
 
